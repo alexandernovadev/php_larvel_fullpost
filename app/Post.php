@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $fillble = [
+    protected $fillable = [
         'title', 'body', 'iframe','image', 'user_id'
     ];
 
@@ -18,5 +18,12 @@ class Post extends Model
     public function getGetExcerptAttribute()
     {
         return substr($this->body,0,140);
+    }
+
+    // Pata get image mak php artisan 
+    public function getGetImageAttribute()
+    {
+        if($this->image)
+            return url("storage/$this->image");
     }
 }

@@ -9,16 +9,26 @@ image
 iframe
 created_at
 updated_at --}}
+
+
+@if ( session('status') )
+<div class="alert alert-success text-center" role="alert">
+    {{ session('status') }}
+</div>
+@endif
+
 <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('POST')
 <div class="container">
     <div class="row justify-content-center">
+      
         <div class="col-md-4">
+            <a class="btn btn-danger" href="{{ route('homeposts') }}">Volver</a>
             <div class="mb-3">
                 Image
                 <div class="card" style="height:300px; width:340px;">
-                    <img id="output" style="width: 100%;height: 100%" alt="">
+                    <img id="output"  style="width: 100%;height: 100%" alt="">
                 </div>
 
                 <div style="cursor: pointer" id="custom-selectimagen">
@@ -26,7 +36,7 @@ updated_at --}}
                         <span style="position:relative; top:28px;"><b>Seleecione Archivo</b></span>
                     </div>
                     <div style="cursor: pointer;border-radius: 23px; border: 2px solid #4caf50;content: 'Joes Task';">
-                        <input name="photo" type="file" name="file" style="opacity: 0; width:100%;" 
+                        <input type="file" name="file" style="opacity: 0; width:100%;" 
                         accept="image/*" onchange="setImgage(this)">
                     </div>
                 </div>
@@ -42,13 +52,24 @@ updated_at --}}
                         
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
-                            <input type="text" value="" class="form-control" 
+                            <input type="text" value="{{ old('title') }}" class="form-control {{ $errors->first('title') ? 'border border-danger' : '' }}" 
                              id="title" aria-describedby="titlehelp" name="title">
-                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                             @if ($errors->first('title'))
+                             <div class="text-danger">
+                                Field Title is required
+                              </div>
+                             @endif
                         </div>
+                        
                         <div class="mb-3">
                             <label for="dexclabel" class="form-label">Description</label> <br>
-                            <textarea class="form-control" name="body" id="dexclabel" rows="10" ></textarea>
+                            <textarea class="form-control {{ $errors->first('body') ? 'border border-danger' : '' }}" 
+                                name="body" id="dexclabel" rows="10" >{{ old('body') }}</textarea>
+                            @if ($errors->first('body'))
+                             <div class="text-danger">
+                                Field Body is required
+                              </div>
+                             @endif
                         </div>
                         <div class="mb-3">
                             <label for="dexclabel" class="form-label">Iframe</label> <br>

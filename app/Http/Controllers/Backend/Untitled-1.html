@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bg {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: red;
+  background-image: linear-gradient(315deg, #d99058 0%, #f8de7e 74%);
+  z-index: -1;
+  transition: 850ms;
+}
+
+.btn {
+  width: 160px;
+  height: 50px;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Dancing Script', cursive;
+  font-size: 25px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #63a4ff;
+  background-image: linear-gradient(315deg, #131414 0%, #83eaf1 74%);
+}
+
+.blind {
+  position: absolute;
+  width: 10px;
+  height: 0px;
+  background-color: #ffffff;
+  background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
+  top: 0;
+}
+
+.string {
+  width: 5px;
+  height: 80px;
+  border-radius: 0 5px 0 0;
+  background: #eee;
+  position: absolute;
+  right: -5px;
+  top: 0;
+  transition: 500ms;
+}
+
+.string-end {
+  width: 8px;
+  height: 12px;
+  border-radius: 0 0 10px 10px;
+  background: #ccc;
+  position: absolute;
+  right: -6.5px;
+  bottom: -42px;
+  transition: 500ms;
+}
+
+.blind2 {
+  height: 50px;
+}
+
+.off {
+  filter: invert(100%) brightness(100%);
+}
+.on {
+  filter: invert(100%) brightness(0%);
+}
+
+.string2 {
+  height: 60px;
+}
+
+.string-end2 {
+  bottom: -22px;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+    </style>
+</head>
+
+<body>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+
+    <div class="app"></div>
+</body>
+
+<script>
+    const random_rgba = () => {
+        const o = Math.round, r = Math.random, s = 255;
+        return `rgba(${o(r() * s)},${o(r() * s)},${o(r() * s)},1)`;
+    }
+    const x = 260
+    const y = 50
+    const width = `width: ${x}px;`
+    const height = `height: ${y}px;`
+
+
+
+    const do_blids = () => {
+        let all_blinds = ''
+        const velocity = 50
+        const left = 10
+        const x = 10
+        const y = 0
+
+        for (let i = 0; i < 16; i++) {
+            all_blinds += blind(i * left, i * velocity, i, x, y)
+        }
+
+        return all_blinds
+    }
+
+    // Atomo con transicion
+    const blind = (left, velocity, id, x, y) => {
+        let color = random_rgba();
+        
+        // let style = `border: 1px solid ${color}; left: ${left}px;transition: ${velocity}ms;`
+        let style = `background:#455a64; left: ${left}px;transition: ${velocity}ms;`
+    
+
+        let className = `blind`
+
+        return `<div class="${className}" id="b${id}" style="${style} "></div>`
+    }
+
+    const template = `
+    <div onclick="show()" class="btn" id="brn" style="width: 160px;height: 50px;">
+        <div class="bg on" id="bg-d"></div>
+        <span class="noselect" id="txt">Close the blinds</span>
+        <div class="string" id="up"></div>
+        <div class="string-end" id="down"></div>
+        ${do_blids()}
+    </div>`
+
+    const insertitems = () => {
+        let padre = document.querySelector('.app');
+        padre.insertAdjacentHTML('afterend', template);
+    }
+    insertitems()
+
+    const show= () => {
+        console.log("JOLL");
+        bg = document.getElementById('bg-d')
+        bg.classList.toggle("of");
+        bg.classList.toggle("on");
+
+        down = document.getElementById('down')
+        bupg = document.getElementById('up')
+        up.classList.toggle("string2");
+        down.classList.toggle("string-end2");
+
+        var dots = document.getElementsByClassName("blind");
+        // document.getElementById("txt").innerHTML = random_rgba();
+        document.getElementById("brn").style.background   = `${random_rgba()}`;
+        for (i = 0; i < dots.length; i++) {
+            dots[i].classList.toggle("blind2");
+        } 
+        
+        for (i = 0; i < 16; i++) {
+            // document.getElementById("b"+i).style.border   = `1px solid ${random_rgba()}`;
+            document.getElementById("b"+i).style.background   = `${random_rgba()}`;
+            
+        }
+
+
+
+    }
+
+    const recursive = (time) => {
+
+        setInterval(() => {
+            show()
+            // recursive(200)
+        }, time);
+    }
+
+    setInterval(() => {
+        show()
+        }, 1000);
+    // recursive(Math.random*300);
+    // recursive(200);
+
+</script>
+
+</html>

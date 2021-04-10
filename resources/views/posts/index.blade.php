@@ -4,6 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <a class="btn btn-danger" href="{{ route('homeposts') }}">Volver</a>
             <div class="card">
                 <div class="card-header">Articulos
                     <a class="btn btn-success float-right btn-sm" 
